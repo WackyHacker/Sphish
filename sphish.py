@@ -14,8 +14,6 @@ from requests import get
 import os
 from zipfile import ZipFile
 
-burp = {'http': 'http://127.0.0.1:8080'}
-
 parser = ArgumentParser()
 
 parser.add_argument('-c', '--check', help='check and install dependencies', action='store_true')
