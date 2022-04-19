@@ -2,7 +2,7 @@
   ███████╗██████╗ ██╗  ██╗██╗███████╗██╗  ██╗     usage: sphish.py [-h] [-c] [-n NGROK] [-s SMS] [-a ALL]
   ██╔════╝██╔══██╗██║  ██║██║██╔════╝██║  ██║
   ███████╗██████╔╝███████║██║███████╗███████║     optional arguments:
-  ╚════██║██╔═══╝ ██╔══██║██║╚════██║██╔══██║        -n NGROK, --ngrok NGROK
+  ╚════██║██╔═══╝ ██╔══██║██║╚════██║██╔══██║      -n NGROK, --ngrok NGROK
   ███████║██║     ██║  ██║██║███████║██║  ██║	   -c, --check           check and install dependencies
   ╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝	   -a ALL, --all ALL     Smishing with Ngrok
 	 		Created by WackyH4cker
