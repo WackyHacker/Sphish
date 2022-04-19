@@ -38,5 +38,9 @@ Use el parámetro `--check` para su instalación, este verificara si existen, de
 
 <p align="center"><img src="https://user-images.githubusercontent.com/69093629/163915016-5f745465-c8a7-489a-a1ac-3586c25bc48f.png"/></p>
 
+El parámetro `--ngrok` instala ngrok, valga la redundancia, hay que asignarle el *authtoken* siguiendo este patron *```--ngrok <authtoken>```*, en caso de existir ignora la instalación.
+
+![ngrok](https://user-images.githubusercontent.com/69093629/164101651-a6edaf6d-f902-4e6d-bd7d-2da7b4e356c4.png)
+
 
 
