@@ -29,4 +29,11 @@ chmod +x sphish.py
 ```
 ./sphish.py --help
 ```
+### Usó
+Para el uso correcto de esta herramienta se requieren una serie de dependencias:
+- PHP
+- wget
 
+Use el parámetro `--check` para su instalación, este verificara si existen, de lo contrario las instalara. 
+
+[![asciicast](https://asciinema.org/a/c0zPcgxyDfcCVoLg2exsGTCoI.svg)](https://asciinema.org/a/c0zPcgxyDfcCVoLg2exsGTCoI)
