@@ -36,4 +36,4 @@ Para el uso correcto de esta herramienta se requieren una serie de dependencias:
 
 Use el parámetro `--check` para su instalación, este verificara si existen, de lo contrario las instalara. 
 
-[![asciicast](https://asciinema.org/a/c0zPcgxyDfcCVoLg2exsGTCoI.svg)](https://asciinema.org/a/c0zPcgxyDfcCVoLg2exsGTCoI)
+<a href="https://asciinema.org/a/14?autoplay=1"><img src="https://asciinema.org/a/14.png" width="836"/></a>
