@@ -21,7 +21,10 @@ También incluye:
 git clone https://github.com/wackyhacker/Sphish
 ```
 ```
-cd Sphish & pip3 install -r requeriments.txt
+cd Sphish
+```
+```
+pip3 install -r requeriments.txt
 ```
 ```
 chmod +x sphish.py
