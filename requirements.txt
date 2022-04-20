@@ -1,0 +1,5 @@
+colored==1.4.3
+pwn==1.0
+pwntools==4.7.0
+requests==2.22.0
+wget==3.2
