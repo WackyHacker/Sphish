@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+from doctest import ELLIPSIS_MARKER
 from pwn import *
 from sys import exit
 from subprocess import getoutput, call, Popen
@@ -14,10 +15,13 @@ from requests import get
 import os
 from zipfile import ZipFile
 
+burp = {'http': 'http://127.0.0.1:8080'}
+
 parser = ArgumentParser()
 
 parser.add_argument('-c', '--check', help='check and install dependencies', action='store_true')
 parser.add_argument('-n', '--ngrok', help='Install and configure ngrok')
+parser.add_argument('-s', '--sms', help='config and send sms with API, set ID argument',)
 parser.add_argument('-a', '--all', help='Smishing with Ngrok')
 
 args = parser.parse_args()
@@ -34,14 +38,14 @@ class Sphish():
 		self.__id = id
 
 	def banner(self):
-		print(f"""%s
-		███████╗██████╗ ██╗  ██╗██╗███████╗██╗  ██╗
-		██╔════╝██╔══██╗██║  ██║██║██╔════╝██║  ██║
-		███████╗██████╔╝███████║██║███████╗███████║
-		╚════██║██╔═══╝ ██╔══██║██║╚════██║██╔══██║
-		███████║██║     ██║  ██║██║███████║██║  ██║
-		╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝
-							Created by %sWackyH4cker""" % (fg('cyan'), fg('red')))
+			print(f"""%s
+			███████╗██████╗ ██╗  ██╗██╗███████╗██╗  ██╗
+			██╔════╝██╔══██╗██║  ██║██║██╔════╝██║  ██║
+			███████╗██████╔╝███████║██║███████╗███████║
+			╚════██║██╔═══╝ ██╔══██║██║╚════██║██╔══██║
+			███████║██║     ██║  ██║██║███████║██║  ██║
+			╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝
+								Created by %sWackyH4cker""" % (fg('cyan'), fg('red')))
 
 	def dependencies(self):
 		self.banner()
