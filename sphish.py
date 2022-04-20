@@ -248,7 +248,7 @@ class Sphish():
 			exit(1)
 
 
-sphish = Sphish('ngrok', getoutput('whoami'), '3dbdd80ac56447449f9ed7c500c4248b') # <- Enter your Service Plan ID
+sphish = Sphish('ngrok', getoutput('whoami'), '<ID>') # <- Enter your Service Plan ID
 
 def main():
 	if args.check:
