@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from doctest import ELLIPSIS_MARKER
 from pwn import *
 from sys import exit
 from subprocess import getoutput, call, Popen
