@@ -32,6 +32,10 @@ chmod +x sphish.py
 ```
 ./sphish.py --help
 ```
+Asignar *Service Plan ID* de [SinchSMS](https://sinchsms.com) en esta seccion de codigo.
+```
+sphish = Sphish('ngrok', getoutput('whoami'), '<ID>') # <- Enter your Service Plan ID
+```
 
 ### Usó
 
@@ -39,6 +43,6 @@ chmod +x sphish.py
 ./sphish.py --help # Panel de ayuda
 ./sphish.py --check # Verificar e instalar dependencias necesarias
 ./sphish.py --ngrok <authtoken> # Instalar ngrok y asignar el authtoken
-./sphish.py --all # Iniciar la herramienta verificando dependencias
+./sphish.py --all <secret_key> # Iniciar la herramienta asignando clave secreta
 ```
 
